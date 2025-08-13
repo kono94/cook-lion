@@ -1,0 +1,12 @@
+# Maven build directory
+target/
+
+# IntelliJ project files for modules (handled by root but safe to repeat if submodules are opened separately)
+*.iml
+out/
+
+# OS files
+.DS_Store
+
+# Logs
+*.log
