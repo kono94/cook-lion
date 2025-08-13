@@ -1,4 +1,4 @@
-package com.cooklion.grocery.model;
+package net.lwenstrom.cooklion.grocery.model;
 
 public enum GroceryListStatus {
     ACTIVE,
