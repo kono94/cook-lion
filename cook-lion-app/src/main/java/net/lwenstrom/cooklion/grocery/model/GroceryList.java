@@ -1,8 +1,8 @@
-package com.cooklion.grocery.model;
+package net.lwenstrom.cooklion.grocery.model;
 
-import com.cooklion.auth.model.UserAccount;
-import com.cooklion.common.model.AbstractAuditableEntity;
-import com.cooklion.mealplan.model.MealPlan;
+import net.lwenstrom.cooklion.auth.model.UserAccount;
+import net.lwenstrom.cooklion.common.model.AbstractAuditableEntity;
+import net.lwenstrom.cooklion.mealplan.model.MealPlan;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

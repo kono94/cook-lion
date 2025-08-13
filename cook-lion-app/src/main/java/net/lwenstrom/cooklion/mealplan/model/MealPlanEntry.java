@@ -1,7 +1,7 @@
-package com.cooklion.mealplan.model;
+package net.lwenstrom.cooklion.mealplan.model;
 
-import com.cooklion.common.model.AbstractAuditableEntity;
-import com.cooklion.recipe.model.Recipe;
+import net.lwenstrom.cooklion.common.model.AbstractAuditableEntity;
+import net.lwenstrom.cooklion.recipe.model.Recipe;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

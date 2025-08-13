@@ -1,4 +1,4 @@
-package com.cooklion.common.model;
+package net.lwenstrom.cooklion.common.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;

@@ -1,4 +1,4 @@
-package com.cooklion.mealplan.model;
+package net.lwenstrom.cooklion.mealplan.model;
 
 public enum MealType {
     BREAKFAST,

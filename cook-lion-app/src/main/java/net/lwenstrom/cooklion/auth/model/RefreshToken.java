@@ -1,6 +1,6 @@
-package com.cooklion.auth.model;
+package net.lwenstrom.cooklion.auth.model;
 
-import com.cooklion.common.model.AbstractAuditableEntity;
+import net.lwenstrom.cooklion.common.model.AbstractAuditableEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

@@ -1,4 +1,4 @@
-package com.cooklion.recipe.model;
+package net.lwenstrom.cooklion.recipe.model;
 
 public enum RecipeVisibility {
     PUBLIC,

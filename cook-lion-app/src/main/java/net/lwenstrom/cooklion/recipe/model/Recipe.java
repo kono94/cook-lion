@@ -1,8 +1,8 @@
-package com.cooklion.recipe.model;
+package net.lwenstrom.cooklion.recipe.model;
 
-import com.cooklion.auth.model.UserAccount;
-import com.cooklion.common.model.AbstractAuditableEntity;
-import com.cooklion.files.model.FileAsset;
+import net.lwenstrom.cooklion.auth.model.UserAccount;
+import net.lwenstrom.cooklion.common.model.AbstractAuditableEntity;
+import net.lwenstrom.cooklion.files.model.FileAsset;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -82,5 +82,5 @@ public class Recipe extends AbstractAuditableEntity {
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
-    private Set<com.cooklion.recipe.model.Tag> tags = new HashSet<>();
+    private Set<Tag> tags = new HashSet<>();
 }

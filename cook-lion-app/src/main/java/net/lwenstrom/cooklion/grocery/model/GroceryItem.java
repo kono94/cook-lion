@@ -1,6 +1,6 @@
-package com.cooklion.grocery.model;
+package net.lwenstrom.cooklion.grocery.model;
 
-import com.cooklion.common.model.AbstractAuditableEntity;
+import net.lwenstrom.cooklion.common.model.AbstractAuditableEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
