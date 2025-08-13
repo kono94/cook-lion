@@ -9,6 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,7 +24,8 @@ import java.time.Instant;
 @Table(name = "refresh_tokens",
        indexes = {
            @Index(name = "idx_refresh_tokens_token_hash", columnList = "token_hash", unique = true),
-           @Index(name = "idx_refresh_tokens_user", columnList = "user_id")
+           @Index(name = "idx_refresh_tokens_user", columnList = "user_id"),
+           @Index(name = "idx_refresh_tokens_expires_at", columnList = "expires_at")
        }
 )
 public class RefreshToken extends AbstractAuditableEntity {
@@ -37,6 +39,7 @@ public class RefreshToken extends AbstractAuditableEntity {
     @Column(name = "token_hash", nullable = false, unique = true, length = 128)
     private String tokenHash;
 
+    @NotNull
     @Column(name = "expires_at", nullable = false)
     private Instant expiresAt;
 
@@ -47,9 +50,25 @@ public class RefreshToken extends AbstractAuditableEntity {
     @Column(name = "replaced_by_token_hash", length = 128)
     private String replacedByTokenHash;
 
+    @Size(max = 64)
     @Column(name = "ip_address", length = 64)
     private String ipAddress;
 
+    @Size(max = 512)
     @Column(name = "user_agent", length = 512)
     private String userAgent;
+
+    @Column(name = "is_valid", nullable = false)
+    private boolean valid = true;
+
+    public boolean isValid() {
+        return valid && 
+               expiresAt.isAfter(Instant.now()) && 
+               revokedAt == null;
+    }
+
+    public void invalidate() {
+        this.valid = false;
+        this.revokedAt = Instant.now();
+    }
 }

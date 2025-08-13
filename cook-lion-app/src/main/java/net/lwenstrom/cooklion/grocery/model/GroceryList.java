@@ -53,4 +53,15 @@ public class GroceryList extends AbstractAuditableEntity {
     @OneToMany(mappedBy = "groceryList", orphanRemoval = true)
     @OrderBy("position ASC")
     private Set<GroceryItem> items = new LinkedHashSet<>();
+
+    public int getNextItemPosition() {
+        if (items.isEmpty()) {
+            return 1;
+        } else {
+            return items.stream()
+                       .mapToInt(GroceryItem::getPosition)
+                       .max()
+                       .orElse(1) + 1;
+        }
+    }
 }
