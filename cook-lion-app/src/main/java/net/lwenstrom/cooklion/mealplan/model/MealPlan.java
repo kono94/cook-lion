@@ -1,7 +1,5 @@
 package net.lwenstrom.cooklion.mealplan.model;
 
-import net.lwenstrom.cooklion.auth.model.UserAccount;
-import net.lwenstrom.cooklion.common.model.AbstractAuditableEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,25 +15,26 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import net.lwenstrom.cooklion.auth.model.UserAccount;
+import net.lwenstrom.cooklion.common.model.AbstractAuditableEntity;
 
 @Getter
 @Setter
 @ToString(exclude = {"user", "entries"})
 @Entity
-@Table(name = "meal_plans",
-       indexes = {
-           @Index(name = "idx_meal_plans_user", columnList = "user_id"),
-           @Index(name = "idx_meal_plans_start_end", columnList = "start_date,end_date"),
-           @Index(name = "idx_meal_plans_active", columnList = "is_active")
-       }
-)
+@Table(
+        name = "meal_plans",
+        indexes = {
+            @Index(name = "idx_meal_plans_user", columnList = "user_id"),
+            @Index(name = "idx_meal_plans_start_end", columnList = "start_date,end_date"),
+            @Index(name = "idx_meal_plans_active", columnList = "is_active")
+        })
 public class MealPlan extends AbstractAuditableEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -72,8 +71,8 @@ public class MealPlan extends AbstractAuditableEntity {
 
     public boolean isCurrentlyActive() {
         LocalDate today = LocalDate.now();
-        return active && 
-               (today.isEqual(startDate) || today.isAfter(startDate)) && 
-               (today.isEqual(endDate) || today.isBefore(endDate));
+        return active
+                && (today.isEqual(startDate) || today.isAfter(startDate))
+                && (today.isEqual(endDate) || today.isBefore(endDate));
     }
 }

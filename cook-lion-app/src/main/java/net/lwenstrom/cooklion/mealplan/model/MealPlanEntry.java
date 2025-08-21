@@ -1,7 +1,5 @@
 package net.lwenstrom.cooklion.mealplan.model;
 
-import net.lwenstrom.cooklion.common.model.AbstractAuditableEntity;
-import net.lwenstrom.cooklion.recipe.model.Recipe;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -12,21 +10,22 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
+import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDate;
+import net.lwenstrom.cooklion.common.model.AbstractAuditableEntity;
+import net.lwenstrom.cooklion.recipe.model.Recipe;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "meal_plan_entries",
-       indexes = {
-           @Index(name = "idx_meal_plan_entries_plan", columnList = "meal_plan_id"),
-           @Index(name = "idx_meal_plan_entries_date", columnList = "date"),
-           @Index(name = "idx_meal_plan_entries_recipe", columnList = "recipe_id")
-       }
-)
+@Table(
+        name = "meal_plan_entries",
+        indexes = {
+            @Index(name = "idx_meal_plan_entries_plan", columnList = "meal_plan_id"),
+            @Index(name = "idx_meal_plan_entries_date", columnList = "date"),
+            @Index(name = "idx_meal_plan_entries_recipe", columnList = "recipe_id")
+        })
 public class MealPlanEntry extends AbstractAuditableEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

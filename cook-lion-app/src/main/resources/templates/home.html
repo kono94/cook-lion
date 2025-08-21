@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CookLion - Home</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .login-btn { background: #4285f4; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Welcome to CookLion</h1>
+
+    <div sec:authorize="!isAuthenticated()">
+        <p>Please log in to access your recipes and meal plans.</p>
+        <a href="/oauth2/authorization/keycloak" class="login-btn">Login with Keycloak</a>
+    </div>
+
+    <div sec:authorize="isAuthenticated()">
+        <p>You are logged in! <a href="/dashboard">Go to Dashboard</a></p>
+        <form th:action="@{/logout}" method="post" style="display: inline;">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+</body>
+</html>

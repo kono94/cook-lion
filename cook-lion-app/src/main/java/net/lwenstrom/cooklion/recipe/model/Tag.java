@@ -1,6 +1,5 @@
 package net.lwenstrom.cooklion.recipe.model;
 
-import net.lwenstrom.cooklion.common.model.AbstractAuditableEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Index;
@@ -9,16 +8,17 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import net.lwenstrom.cooklion.common.model.AbstractAuditableEntity;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "tags",
-       indexes = {
-           @Index(name = "idx_tags_name", columnList = "name", unique = true),
-           @Index(name = "idx_tags_slug", columnList = "slug", unique = true)
-       }
-)
+@Table(
+        name = "tags",
+        indexes = {
+            @Index(name = "idx_tags_name", columnList = "name", unique = true),
+            @Index(name = "idx_tags_slug", columnList = "slug", unique = true)
+        })
 public class Tag extends AbstractAuditableEntity {
 
     @NotBlank

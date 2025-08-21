@@ -1,30 +1,106 @@
+server:
+  port: ${SERVER_PORT:9090}
+  error:
+    include-message: on_param
+    include-binding-errors: on_param
+    include-exception: false
+    include-stacktrace: on_param
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:test}
+    access-token-expiration-minutes: ${JWT_EXPIRATION_MINUTES:15}
+  admin:
+    emails: ${ADMIN_EMAILS:admin@cooklion.com}
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000,http://localhost:9090}
+    allowed-methods: GET,POST,PUT,PATCH,DELETE,OPTIONS
+    allowed-headers: '*'
+    allow-credentials: true
+    max-age: 3600
+
 spring:
+  application:
+    name: cook-lion
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
   datasource:
-      url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/cooklion}
-      username: ${POSTGRES_USER:cooklion}
-      password: ${POSTGRES_PASSWORD:cooklion}
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/cooklion}
+    username: ${POSTGRES_USER:cooklion}
+    password: ${POSTGRES_PASSWORD:cooklion}
+    hikari:
+      maximum-pool-size: ${DB_POOL_SIZE:20}
+      minimum-idle: 5
+      connection-timeout: 20000
+      idle-timeout: 300000
+      max-lifetime: 1200000
   jpa:
-      open-in-view: false
+    open-in-view: false
+    hibernate:
+      ddl-auto: ${DDL_AUTO:validate}
+    show-sql: false
+    properties:
       hibernate:
-        ddl-auto: validate
-      properties:
-        hibernate:
-          format_sql: true
-          jdbc:
-            time_zone: UTC
-  logging:
-    level:
-      org.hibernate.SQL: warn
-      org.hibernate.orm.jdbc.bind: warn
+        format_sql: true
+        jdbc:
+          time_zone: UTC
+          batch_size: 20
+        order_inserts: true
+        order_updates: true
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            provider: keycloak
+            client-id: ${KEYCLOAK_CLIENT_ID:cooklion}
+            client-secret: ${KEYCLOAK_CLIENT_SECRET:cooklion-secret}
+            scope: openid,profile,email,roles
+            authorization-grant-type: authorization_code
+            redirect-uri: ${KEYCLOAK_REDIRECT_URI:http://localhost:9090/login/oauth2/code/keycloak}
+        provider:
+          keycloak:
+            issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8080/realms/cooklion}
+            user-name-attribute: preferred_username
+      jwt:
+        issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8080/realms/cooklion}
+        jwk-set-uri: ${KEYCLOAK_JWK_SET_URI:http://localhost:8080/realms/cooklion/protocol/openid-connect/certs}
+
   ai:
     ollama:
-      base-url: http://localhost:11434
+      base-url: ${OLLAMA_BASE_URL:http://localhost:11434}
       init:
         pull-model-strategy: when_missing
       chat:
         options:
-          model: gemma3:1b #llama3.2:1b #gemma3:1b
-          format:  # json or blank
+          model: ${OLLAMA_MODEL:gemma3:1b}
           num-predict: -1 # default: -1, output token cap; TODO: streaming and low value does not work well together
           top-k: 10 # default: 40 higher => more nonsense
           temperature: 0.7 # default 0.8, higher => more creative
+
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: health,info,metrics,prometheus
+        base-path: /actuator
+    endpoint:
+      health:
+        show-details: when_authorized
+        show-components: when_authorized
+    metrics:
+      export:
+        prometheus:
+          enabled: true
+
+  logging:
+    level:
+      root: INFO
+      net.lwenstrom.cooklion: ${LOG_LEVEL:DEBUG}
+      org.springframework.security: INFO
+      org.springframework.security.oauth2: DEBUG
+      org.hibernate.SQL: WARN
+      org.hibernate.orm.jdbc.bind: WARN
+    pattern:
+      console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wEx"
+      file: "%d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${PID:- } --- [%t] %-40.40logger{39} : %m%n%wEx"

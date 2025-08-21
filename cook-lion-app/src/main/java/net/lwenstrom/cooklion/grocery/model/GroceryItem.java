@@ -1,7 +1,5 @@
 package net.lwenstrom.cooklion.grocery.model;
 
-import net.lwenstrom.cooklion.common.model.AbstractAuditableEntity;
-import net.lwenstrom.cooklion.recipe.model.Recipe;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -12,11 +10,13 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import net.lwenstrom.cooklion.common.model.AbstractAuditableEntity;
+import net.lwenstrom.cooklion.recipe.model.Recipe;
 
 @Getter
 @Setter
@@ -24,13 +24,13 @@ import lombok.Builder;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "grocery_items",
-       indexes = {
-           @Index(name = "idx_grocery_items_list", columnList = "grocery_list_id"),
-           @Index(name = "idx_grocery_items_category", columnList = "category"),
-           @Index(name = "idx_grocery_items_position", columnList = "position")
-       }
-)
+@Table(
+        name = "grocery_items",
+        indexes = {
+            @Index(name = "idx_grocery_items_list", columnList = "grocery_list_id"),
+            @Index(name = "idx_grocery_items_category", columnList = "category"),
+            @Index(name = "idx_grocery_items_position", columnList = "position")
+        })
 public class GroceryItem extends AbstractAuditableEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

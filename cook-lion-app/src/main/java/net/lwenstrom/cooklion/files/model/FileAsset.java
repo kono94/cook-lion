@@ -1,7 +1,5 @@
 package net.lwenstrom.cooklion.files.model;
 
-import net.lwenstrom.cooklion.common.model.AbstractAuditableEntity;
-import net.lwenstrom.cooklion.auth.model.UserAccount;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -13,16 +11,18 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import net.lwenstrom.cooklion.auth.model.UserAccount;
+import net.lwenstrom.cooklion.common.model.AbstractAuditableEntity;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "file_assets",
-       indexes = {
-           @Index(name = "idx_file_assets_owner", columnList = "owner_id"),
-           @Index(name = "idx_file_assets_storage_key", columnList = "storage_key", unique = true)
-       }
-)
+@Table(
+        name = "file_assets",
+        indexes = {
+            @Index(name = "idx_file_assets_owner", columnList = "owner_id"),
+            @Index(name = "idx_file_assets_storage_key", columnList = "storage_key", unique = true)
+        })
 public class FileAsset extends AbstractAuditableEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
